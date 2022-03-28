@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        $("button").click(function(){
+            $.ajax({
+                url: "search.php", 
+                data: {
+                    c1: $('#c1').val(),
+                    c2: $('#c2').val(),
+                    c3: $('#c3').val(),
+                    c4: $('#c4').val(),
+                    c5: $('#c5').val(),
+                    contains: $('#contains').val(),
+                    doesNotContain: $('#doesNotContain').val()
+                },
+                type: "POST",
+                success: function(result){
+                    $("#searchResults").html(result);
+                }
+            });
+        });
+    });
+    </script>
+    <style>
+body, h1, h2, h3, h4, h5, h6 {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.btnsearch {
+  background-color: green !important;
+  border: 0px;
+  border-radius: 5px;
+  font-size: 55px;
+  font-family: 'Source Sans Pro', sans-serif;
+  color: white;
+  padding: 6px 18px;
+}
+
+#game-board {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.letter-box {
+  border: 2px solid gray;
+  border-radius: 3px;
+  margin: 2px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  height: 3rem;
+  width: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.characters-box {
+  border: 2px solid gray;
+  border-radius: 3px;
+  margin: 2px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  height: 3rem;
+  width: 30rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.filled-box {
+  border: 2px solid black;
+}
+
+.letter-row {
+  display: flex;
+}
+
+.matches ol {
+  -webkit-column-count: 6;
+  -moz-column-count: 6;
+  column-count: 6;
+}
+
+.matches li {
+  display: block;
+  border: 1px solid $background-colour;
+  -moz-column-break-inside:avoid;
+  -webkit-column-break-inside:avoid;
+  column-break-inside:avoid;
+  font-size: 1rem;
+}
+    </style>
+</head>
+<body>
+    <center><h1>Tor-dle</h1></center>
+    <div id="game-board">
+
+        <div class="letter-row" id="letterMatch">
+            <input class="letter-box" type="text" name="c1" id="c1" minlength="0" maxlength="1" />
+            <input class="letter-box" type="text" name="c2" id="c2" minlength="0" maxlength="1" />
+            <input class="letter-box" type="text" name="c3" id="c3" minlength="0" maxlength="1" />
+            <input class="letter-box" type="text" name="c4" id="c4" minlength="0" maxlength="1" />
+            <input class="letter-box" type="text" name="c5" id="c5" minlength="0" maxlength="1" />
+        </div>
+        <div id="contains-row">
+            Include: 
+            <input class="characters-box" type="text" name="contains" id="contains" minlength="0" maxlength="25" />
+        </div>
+        <div id="doesNotContains-row">
+            Exclude:
+            <input class="characters-box" type="text" name="doesNotContain" id="doesNotContain" minlength="0" maxlength="25" />
+        </div>
+
+        <button class="btnsearch">Search</button>
+        
+        <div class="matches"><ol>    
+        <div id="searchResults"></div>
+        </ol></div>
+    </div>
+</body>
+</html>
