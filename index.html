@@ -19,6 +19,11 @@
                 type: "POST",
                 success: function(result){
                     $("#searchResults").html(result);
+                    $("#errorResults").html('');
+                },
+                error: function(result){
+                    $("#searchResults").html('');
+                    $("#errorResults").html(result.responseText);
                 }
             });
         });
@@ -98,7 +103,9 @@ body, h1, h2, h3, h4, h5, h6 {
     </style>
 </head>
 <body>
-    <center><h1>Tor-dle</h1></center>
+    <center>
+        <img src="./images/tortle.png" width="25%" />
+    </center>
     <div id="game-board">
 
         <div class="letter-row" id="letterMatch">
@@ -118,8 +125,10 @@ body, h1, h2, h3, h4, h5, h6 {
         </div>
 
         <button class="btnsearch">Search</button>
-        
-        <div class="matches"><ol>    
+
+	<center><div id="errorResults"></div></center>
+
+        <div class="matches"><ol>
         <div id="searchResults"></div>
         </ol></div>
     </div>

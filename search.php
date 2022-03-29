@@ -1,6 +1,7 @@
 <?php
 
 define("WILDCARD", "_");
+define("RESULTS_LIMIT", 500);
 
 function wordContains($word, $characters) 
 {
@@ -30,6 +31,24 @@ $c4 = $_POST['c4'];
 $c5 = $_POST['c5'];
 $contains = $_POST['contains'];
 $doesNotContain = $_POST['doesNotContain'];
+
+#region must have something to search on...
+if (
+    !isset($c1[0]) &&
+    !isset($c2[0]) &&
+    !isset($c3[0]) &&
+    !isset($c4[0]) &&
+    !isset($c5[0]) &&
+    !isset($contains[0]) &&
+    !isset($doesNotContain[0])
+    )
+{
+        header('HTTP/1.1 500 Internal Server Error');
+        header('Content-Type: text/html; charset=UTF-8');
+        exit('Please enter search criteria');
+}
+
+#endregion
 
 #region convert the input to lowercase or the wildcard
 if (isset($c1[0]))
@@ -80,23 +99,6 @@ if (isset($doesNotContain[0]))
 {
     $doesNotContain = trim(strtolower($doesNotContain));
 }
-#endregion
-
-#region must have something to search on...
-if (
-    !isset($c1[0]) &&
-    !isset($c2[0]) &&
-    !isset($c3[0]) &&
-    !isset($c4[0]) &&
-    !isset($c5[0]) &&
-    !isset($contains[0]) &&
-    !isset($doesNotContain[0]) 
-    )
-{
-    echo 'Must enter something to search on';
-    die;
-}
-
 #endregion
 
 // keep track of some statistics
@@ -188,13 +190,14 @@ $matches = array_unique($matches, SORT_REGULAR);
 sort($matches);
 
 // return all results
-//echo "<div class=\"matches\"><ol>";
 foreach ($matches as $m) 
 {
     $totalMatches = $totalMatches + 1;
     echo "<li>" . $m . "</li>";
+
+    // limit output to 500 results to be more usable
+    if ($totalMatches > RESULTS_LIMIT) { break; }
 } 
-//echo "</ol></div>";
 //echo "Total Matches: " . $totalMatches . "<br/>";
 
 ?>
