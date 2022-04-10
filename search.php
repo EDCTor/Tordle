@@ -3,6 +3,9 @@
 define("WILDCARD", "_");
 define("RESULTS_LIMIT", 500);
 
+//
+// if the word contains any of the characters then return true
+//
 function wordContains($word, $characters) 
 {
 	$found = false;
@@ -21,6 +24,37 @@ function wordContains($word, $characters)
 	}
 
 	return $found;
+}
+
+//
+// the word must contain all of the characters to return true
+//
+function wordContainsAll($word, $characters)
+{
+    $found = false;
+
+    if (isset($characters[0]))
+    {
+        $cArry = str_split($characters);
+
+        // check each character one by one
+        // if the character is found then keep checking
+        // if the character is not found then stop looking
+        foreach($cArry as $c)
+        {
+            if (strpos($word, $c) !== false)
+            {
+                $found = true;
+            }
+            else
+            {
+                $found = false;
+                break;
+            }
+        }
+    }
+
+    return $found;
 }
 
 // get the input search strings
@@ -150,7 +184,7 @@ if ($handle)
 		#region third check: must contain one of these characters
 		if ($keeper && isset($contains[0]))
 		{
-			$keeper = wordContains($line, $contains);
+			$keeper = wordContainsAll($line, $contains);
 		}
 		#endregion
 
